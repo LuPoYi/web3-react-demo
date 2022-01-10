@@ -1,4 +1,4 @@
-# web3 react demo bob
+# web3 react demo
 
 https://web3-react-demo-bob.vercel.app/
 
