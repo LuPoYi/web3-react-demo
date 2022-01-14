@@ -12,3 +12,10 @@ https://web3-react-demo-bob.vercel.app/
 #### Notes
 
 目前還是先用自己習慣的方式去實作串接metamask wallet串接，不是best practice
+
+#### TODO
+
+* 改用 `ethers.js`
+* 實作發送 ERC20
+  * 爬目前持有ERC20 Token  支援輸入contract來取得ERC20
+* 支援 `Wallet connect`
