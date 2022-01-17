@@ -14,12 +14,13 @@ const Body = ({
   balance,
   address,
   amount,
-  connectedWallet,
+  account,
   handleAddressOnChange,
   handleAmountOnChange,
   handleConnectWalletOnClick,
   handleSendEthOnClick,
 }) => {
+  const floatedBalance = parseFloat(balance).toFixed(4)
   const connectWalletCard = () => (
     <Card style={{ minWidth: 400, padding: 10, marginBottom: 15 }}>
       <Button
@@ -35,8 +36,8 @@ const Body = ({
   )
 
   const EthForm = () => (
-    <Card style={{ minWidth: 400, filter: !connectedWallet && 'blur(2px)', marginBottom: 30 }}>
-      <CardHeader title="Send ETH" subheader={`${balance} ETH`} />
+    <Card style={{ minWidth: 400, filter: !account && 'blur(2px)', marginBottom: 30 }}>
+      <CardHeader title="Send ETH" subheader={`${floatedBalance} ETH`} />
       <CardContent>
         <TextField
           fullWidth
@@ -75,7 +76,7 @@ const Body = ({
 
   return (
     <Container maxWidth="sm" style={{ paddingTop: 30 }}>
-      {!connectedWallet && connectWalletCard()}
+      {!account && connectWalletCard()}
       {EthForm()}
     </Container>
   )

@@ -1,8 +1,8 @@
 import { AppBar, Box, Toolbar, Typography } from '@material-ui/core'
 
-const Navbar = ({ connectedWallet }) => {
-  const displayConnectedWallet = connectedWallet
-    ? `${connectedWallet.slice(0, 5)}...${connectedWallet.slice(-4)}`
+const Navbar = ({ account }) => {
+  const displayAccount = account
+    ? `${account.slice(0, 5)}...${account.slice(-4)}`
     : 'No wallet connected'
 
   return (
@@ -14,7 +14,7 @@ const Navbar = ({ connectedWallet }) => {
           </Typography>
 
           <Typography variant="h6" component="div" style={{ whiteSpace: 'nowrap' }}>
-            {displayConnectedWallet}
+            {displayAccount}
           </Typography>
         </Toolbar>
       </AppBar>
