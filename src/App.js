@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
-import { InjectedConnector } from '@web3-react/injected-connector'
+
 import { Snackbar } from '@material-ui/core'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
-
-const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42],
-})
 
 function App() {
   const [address, setAddress] = useState('')
@@ -22,9 +18,10 @@ function App() {
   const [signer, setSigner] = useState()
   const { active, account, library, connector, activate, deactivate } = useWeb3React()
 
-  const handleConnectWalletOnClick = async () => {
+  const handleConnectWalletOnClick = (connector) => async () => {
     try {
-      await activate(injected)
+      //await activate(injected)
+      await activate(connector)
     } catch (ex) {
       console.log(ex)
     }
@@ -59,6 +56,7 @@ function App() {
 
   useEffect(() => {
     if (account) {
+      // TODO: support walletConnect provider
       const fetchProvider = async () => {
         const web3Provider = new ethers.providers.Web3Provider(window.ethereum)
         setProvider(web3Provider)
@@ -78,9 +76,11 @@ function App() {
         address={address}
         amount={amount}
         account={account}
+        active={active}
         handleAddressOnChange={handleAddressOnChange}
         handleAmountOnChange={handleAmountOnChange}
         handleConnectWalletOnClick={handleConnectWalletOnClick}
+        handleDisconnectWalletOnClick={handleDisconnectWalletOnClick}
         handleSendEthOnClick={handleSendEthOnClick}
       />
       <Snackbar

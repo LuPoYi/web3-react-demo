@@ -9,34 +9,62 @@ import {
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import { injected, walletconnect } from '../wallet/connectors'
 
 const Body = ({
   balance,
   address,
   amount,
+  active,
   account,
   handleAddressOnChange,
   handleAmountOnChange,
   handleConnectWalletOnClick,
+  handleDisconnectWalletOnClick,
   handleSendEthOnClick,
 }) => {
   const floatedBalance = parseFloat(balance).toFixed(4)
   const connectWalletCard = () => (
     <Card style={{ minWidth: 400, padding: 10, marginBottom: 15 }}>
-      <Button
-        fullWidth
-        color="primary"
-        variant="contained"
-        onClick={handleConnectWalletOnClick}
-        endIcon={<WalletIcon />}
-      >
-        Connect Wallet
-      </Button>
+      {!active ? (
+        <>
+          <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            onClick={handleConnectWalletOnClick(injected)}
+            endIcon={<WalletIcon />}
+            style={{ marginBottom: 10 }}
+          >
+            Metamask
+          </Button>
+          <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            onClick={handleConnectWalletOnClick(walletconnect)}
+            endIcon={<WalletIcon />}
+          >
+            Wallet Connect
+          </Button>
+        </>
+      ) : (
+        <Button
+          fullWidth
+          color="secondary"
+          variant="contained"
+          onClick={handleDisconnectWalletOnClick}
+        >
+          {account}
+          <br />
+          Disconnect Wallet
+        </Button>
+      )}
     </Card>
   )
 
   const EthForm = () => (
-    <Card style={{ minWidth: 400, filter: !account && 'blur(2px)', marginBottom: 30 }}>
+    <Card style={{ minWidth: 400, filter: !active && 'blur(2px)', marginBottom: 30 }}>
       <CardHeader title="Send ETH" subheader={`${floatedBalance} ETH`} />
       <CardContent>
         <TextField
@@ -76,7 +104,7 @@ const Body = ({
 
   return (
     <Container maxWidth="sm" style={{ paddingTop: 30 }}>
-      {!account && connectWalletCard()}
+      {connectWalletCard()}
       {EthForm()}
     </Container>
   )
