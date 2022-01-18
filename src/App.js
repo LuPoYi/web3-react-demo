@@ -14,13 +14,11 @@ function App() {
     open: false,
     message: '',
   })
-  const [provider, setProvider] = useState()
   const [signer, setSigner] = useState()
-  const { active, account, library, connector, activate, deactivate } = useWeb3React()
+  const { active, account, library, chainId, activate, deactivate } = useWeb3React()
 
   const handleConnectWalletOnClick = (connector) => async () => {
     try {
-      //await activate(injected)
       await activate(connector)
     } catch (ex) {
       console.log(ex)
@@ -41,12 +39,13 @@ function App() {
         to: address,
         value: ethers.utils.parseEther(amount),
       })
-      .then(({ hash }) =>
+      .then(({ hash }) => {
         setSnackbarState({ open: true, message: `Transaction sent. TXID: ${hash}` })
-      )
+        setAmount('')
+      })
       .catch((error) => {
         console.log('sendTransaction error', error)
-        setSnackbarState({ open: true, message: error?.message })
+        setSnackbarState({ open: true, message: error })
       })
   }
 
@@ -55,18 +54,15 @@ function App() {
   const handleAmountOnChange = (e) => setAmount(e.target.value)
 
   useEffect(() => {
-    if (account) {
-      // TODO: support walletConnect provider
-      const fetchProvider = async () => {
-        const web3Provider = new ethers.providers.Web3Provider(window.ethereum)
-        setProvider(web3Provider)
-        setSigner(web3Provider.getSigner())
-        setBalance(ethers.utils.formatEther(await web3Provider.getBalance(account)))
+    if (library) {
+      const fetchSigner = async () => {
+        setSigner(library.getSigner())
+        setBalance(ethers.utils.formatEther(await library.getBalance(account)))
       }
 
-      fetchProvider()
+      fetchSigner()
     }
-  }, [account])
+  }, [library, account])
 
   return (
     <div className="App">
@@ -77,6 +73,7 @@ function App() {
         amount={amount}
         account={account}
         active={active}
+        chainId={chainId}
         handleAddressOnChange={handleAddressOnChange}
         handleAmountOnChange={handleAmountOnChange}
         handleConnectWalletOnClick={handleConnectWalletOnClick}

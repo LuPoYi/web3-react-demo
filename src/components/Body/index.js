@@ -6,10 +6,11 @@ import {
   CardContent,
   TextField,
   InputAdornment,
+  Typography,
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import { injected, walletconnect } from '../wallet/connectors'
+import { injected, walletconnect, chains } from '../wallet/connectors'
 
 const Body = ({
   balance,
@@ -17,6 +18,7 @@ const Body = ({
   amount,
   active,
   account,
+  chainId,
   handleAddressOnChange,
   handleAmountOnChange,
   handleConnectWalletOnClick,
@@ -24,6 +26,7 @@ const Body = ({
   handleSendEthOnClick,
 }) => {
   const floatedBalance = parseFloat(balance).toFixed(4)
+
   const connectWalletCard = () => (
     <Card style={{ minWidth: 400, padding: 10, marginBottom: 15 }}>
       {!active ? (
@@ -65,7 +68,11 @@ const Body = ({
 
   const EthForm = () => (
     <Card style={{ minWidth: 400, filter: !active && 'blur(2px)', marginBottom: 30 }}>
-      <CardHeader title="Send ETH" subheader={`${floatedBalance} ETH`} />
+      <CardHeader
+        title="Send ETH"
+        subheader={`${floatedBalance}`}
+        action={<Typography style={{ margin: 8 }}>{chains[chainId]}</Typography>}
+      />
       <CardContent>
         <TextField
           fullWidth
