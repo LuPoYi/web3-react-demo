@@ -1,5 +1,4 @@
 import {
-  Container,
   Button,
   Card,
   CardHeader,
@@ -9,68 +8,25 @@ import {
   Typography,
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
-import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import { injected, walletconnect, chains } from '../wallet/connectors'
+import { chains } from '../wallet/connectors'
 
-const Body = ({
+const EthForm = ({
   balance,
   address,
   amount,
   active,
-  account,
   chainId,
   handleAddressOnChange,
   handleAmountOnChange,
-  handleConnectWalletOnClick,
-  handleDisconnectWalletOnClick,
   handleSendEthOnClick,
 }) => {
   const floatedBalance = parseFloat(balance).toFixed(4)
 
-  const connectWalletCard = () => (
-    <Card style={{ minWidth: 400, padding: 10, marginBottom: 15 }}>
-      {!active ? (
-        <>
-          <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            onClick={handleConnectWalletOnClick(injected)}
-            endIcon={<WalletIcon />}
-            style={{ marginBottom: 10 }}
-          >
-            Metamask
-          </Button>
-          <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            onClick={handleConnectWalletOnClick(walletconnect)}
-            endIcon={<WalletIcon />}
-          >
-            Wallet Connect
-          </Button>
-        </>
-      ) : (
-        <Button
-          fullWidth
-          color="secondary"
-          variant="contained"
-          onClick={handleDisconnectWalletOnClick}
-        >
-          {account}
-          <br />
-          Disconnect Wallet
-        </Button>
-      )}
-    </Card>
-  )
-
-  const EthForm = () => (
+  return (
     <Card style={{ minWidth: 400, filter: !active && 'blur(2px)', marginBottom: 30 }}>
       <CardHeader
         title="Send ETH"
-        subheader={`${floatedBalance}`}
+        subheader={`${floatedBalance} ETH`}
         action={<Typography style={{ margin: 8 }}>{chains[chainId]}</Typography>}
       />
       <CardContent>
@@ -108,13 +64,6 @@ const Body = ({
       </CardContent>
     </Card>
   )
-
-  return (
-    <Container maxWidth="sm" style={{ paddingTop: 30 }}>
-      {connectWalletCard()}
-      {EthForm()}
-    </Container>
-  )
 }
 
-export default Body
+export default EthForm
