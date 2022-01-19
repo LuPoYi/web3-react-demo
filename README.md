@@ -1,6 +1,8 @@
 # web3 react demo
 
-https://web3-react-demo-bob.vercel.app/
+- https://web3-react-demo-bob.vercel.app/
+
+<img src="screenshots/demo.png" width="500" />
 
 #### 實作功能
 
@@ -12,10 +14,9 @@ https://web3-react-demo-bob.vercel.app/
 - 取得 ERC20 餘額
 - 發送 ERC20
 
-
 #### Library
 
-* ethers
-* @web3-react/core
-* @web3-react/injected-connector
-* @web3-react/walletconnect-connector
+- ethers
+- @web3-react/core
+- @web3-react/injected-connector
+- @web3-react/walletconnect-connector
